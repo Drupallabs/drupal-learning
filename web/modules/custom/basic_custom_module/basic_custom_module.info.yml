@@ -1,0 +1,5 @@
+name: Basic Custom Module
+description: Test a new basic custom module again
+type: module
+package: Drupal learning
+core_version_requirement: ^8 || ^9

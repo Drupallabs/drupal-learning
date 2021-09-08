@@ -1,0 +1,5 @@
+name: Hello World
+description: Test custom module
+type: module
+package: custom
+core_version_requirement: ^9.0

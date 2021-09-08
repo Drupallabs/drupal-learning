@@ -1,0 +1,5 @@
+name: Basic Custom Module
+description: Test a new basic custom module again
+type: module
+package: Drupal links practice
+core_version_requirement: ^9

@@ -1,0 +1,8 @@
+basic_custom.basic:
+  path: '/example/page/links'
+  defaults:
+    _controller: '\Drupal\links_example\Controller\LinksExampleController::links'
+    _title: "Basic Custom Module in Drupal 9"
+  requirements:
+    _permission: 'access content'
+    _access: "TRUE"

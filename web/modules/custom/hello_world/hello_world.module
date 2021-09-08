@@ -1,0 +1,52 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ *Implements hook_help()
+ */
+
+function hello_world_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+    case 'help.page.hello_world':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This is an example output') . '</p>';
+      return $output;
+    default: return;
+  }
+}
+
+/**
+ * Implements hook_theme()
+ */
+
+function hello_world_theme($existing, $type, $theme, $path) {
+  return [
+    'hello_world_greeting' => [
+      'variables' => ['greeting' => NULL, 'target' => NULL, 'overridden' => FALSE]
+    ]
+  ];
+}
+
+/**
+ * Default preprocessor function for the hello_world_greeting theme hook
+ */
+
+function template_preprocess_hello_world_greeting(&$variables) {
+  $variables['attributes'] = [
+    'class' => ['greeting']
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK()
+ */
+
+function hello_world_theme_suggestions_hello_world_greeting($variables) {
+  $suggestions = [];
+  if ($variables['overridden'] === TRUE) {
+    $suggestions[] = 'hello_world_greeting__overridden';
+  }
+  return $suggestions;
+}

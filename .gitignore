@@ -1,5 +1,5 @@
 vendor
 web/core
-web/modules
+web/modules/contrib
 .env
 .idea
