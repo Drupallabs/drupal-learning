@@ -1,0 +1,5 @@
+name: RegExp Checker
+description: Test a new regex form checker
+type: module
+package: Drupal practice
+core_version_requirement: ^9

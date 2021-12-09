@@ -1,0 +1,7 @@
+content_api.list:
+  path: '/admin/content/api'
+  defaults:
+    _controller: '\Drupal\content_api\Controller\ContentController::intro'
+    _title: 'Content API module for REST API'
+  requirements:
+    _permission: 'access content'

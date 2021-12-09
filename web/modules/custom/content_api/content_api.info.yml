@@ -1,0 +1,5 @@
+name: Content API
+description: This is a test content API
+type: module
+package: Custom
+core_version_requirement: ^8 || ^9

@@ -1,0 +1,12 @@
+component_1:
+  label: My React Component
+  description: This is a demo react app.
+  root_id: root
+  libraries:
+    js:
+      /components/react-app/build/static/js/runtime-main.c89d6330.js: {}
+      /components/react-app/build/static/js/2.f908b780.chunk.js: {}
+      /components/react-app/build/static/js/main.5f961647.chunk.js: {}
+    css:
+      theme:
+        /components/react-app/build/static/css/main.5f361e03.chunk.css: {}

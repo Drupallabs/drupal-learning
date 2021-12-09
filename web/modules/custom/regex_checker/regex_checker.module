@@ -1,0 +1,18 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function regex_checker_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+    case 'help.page.regex_checker':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Internal page for checking regex in Drupal') . '</p>';
+      return $output;
+
+    default:
+  }
+}

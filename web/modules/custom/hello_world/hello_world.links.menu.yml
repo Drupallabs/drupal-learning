@@ -1,0 +1,6 @@
+hello_world.helloWorld:
+  title: 'Hello'
+  description: 'Get our dynamic greeting'
+  route_name: hello_world.helloWorld
+  menu_name: main
+  weight: 0

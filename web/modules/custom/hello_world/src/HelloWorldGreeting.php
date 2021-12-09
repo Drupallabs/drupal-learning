@@ -10,22 +10,22 @@ class HelloWorldGreeting {
 
   /**
    * The config factory
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   * @var ConfigFactoryInterface
    */
   protected $configFactory;
 
   /**
    * The event dispatcher
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   * @var EventDispatcherInterface
    */
   protected $eventDispatcher;
 
   /**
    * HelloWorldGreeting constructor
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   * @param ConfigFactoryInterface $config_factory
    * The config factory
    *
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
+   * @param EventDispatcherInterface $eventDispatcher
    * The event dispatcher
    */
   public function __construct(ConfigFactoryInterface $config_factory, EventDispatcherInterface $eventDispatcher) {
@@ -39,7 +39,14 @@ class HelloWorldGreeting {
   public function getGreetingComponent(): array
   {
     $render = [
-      '#theme' => 'hello_world_greeting'
+      '#theme' => 'hello_world_greeting',
+      '#greeting' => [
+        '#contextual_links' => [
+          'hello_world' => [
+            'route_parameters' => []
+          ],
+        ]
+      ]
     ];
 
     $config = $this->configFactory->get('hello_world.custom_greeting');
@@ -49,26 +56,32 @@ class HelloWorldGreeting {
       $event = new GreetingEvent();
       $event->setMessage($greeting);
       $this->eventDispatcher->dispatch(GreetingEvent::EVENT, $event);
-      $render['greeting'] = $event->getMessage();
+      $render['greeting']['#markup'] = $event->getMessage();
       $render['overridden'] = TRUE;
       return $render;
     }
 
     $time = new \DateTime();
     $render['#target'] = $this->t('world');
+    $render['#attached'] = [
+      'library' => [
+        'hello_world/hello_world_clock',
+      ],
+    ];
 
     if ((int) $time->format('G') >= 00 && (int) $time->format('G') < 12) {
-      $render['#greeting'] = $this->t('Good morning');
+      $render['#greeting']['#markup'] = $this->t('Good morning');
       return $render;
     }
 
     if ((int) $time->format('G') >= 12 && (int) $time->format('G') < 18) {
-      $render['#greeting'] = $this->t('Good afternoon');
+      $render['#greeting']['#markup'] = $this->t('Good afternoon');
+      $render['##attached']['drupalSettings']['hello_world']['hello_world_clock']['afternoon'] = TRUE;
       return $render;
     }
 
     if ((int) $time->format('G') >= 18) {
-      $render['#greeting'] = $this->t('Good evening');
+      $render['#greeting']['#markup'] = $this->t('Good evening');
       return $render;
     }
   }

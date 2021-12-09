@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Drupal and React module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+ /**
+  * @file
+  * Contains drupal_and_react.module.
+  */
+
+ use Drupal\Core\Routing\RouteMatchInterface;
+ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+
+ /**
+  * Implements hook_help().
+  */
+ function drupal_and_react_help($route_name, RouteMatchInterface $route_match) {
+   switch ($route_name) {
+     // Main module help for the drupal_and_react module.
+     case 'help.page.drupal_and_react':
+       $output = '';
+       $output .= '<h3>' . t('About') . '</h3>';
+       $output .= '<p>' . t('Example module integration Drupal and ReactJS.') . '</p>';
+       return $output;
+
+     default:
+   }
+ }
+
+ /**
+  * Implements hook_library_info_build().
+  */
+ function drupal_and_react_library_info_build() {
+   # Load current module path.
+   $module = \Drupal::moduleHandler()->getModule('drupal_and_react');
+   $module_path = $module->getPath();
+
+   # Set app bundle source for develompent and prodution.
+   $js_dev = 'assets/js/dist/app.bundle.js';
+   $js_prod = 'assets/js/build/app.bundle.js';
+
+   # Generate app bundle source path
+   $js_src = ( isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'production' ) ? $js_prod : $js_dev;
+   $js_src = file_exists($module_path . '/' . $js_src) ? $js_src : $js_prod;
+
+   # Build Drupal library.
+   $js = [];
+   if ( file_exists($module_path . '/' . $js_src) ) {
+     $js[$js_src] = [
+       'minified' => TRUE,
+       'preprocess' => FALSE,
+     ];
+
+     $libraries = [
+       'app_bundle' => [
+         'version' => 'VERSION',
+         'js' => $js,
+       ],
+     ];
+   }
+   else {
+     # Generate exception if app bundle is not found.
+     throw new FileNotFoundException(
+       $module_path . '/' . $js_src
+     );
+   }
+
+   return $libraries;
+ }
